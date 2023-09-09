@@ -1,0 +1,19 @@
+# 测试配置文件
+
+server:
+  port: 8080
+spring:
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://124.223.222.249:3306/yubi
+    username: root
+    password: 123456
+
+  # Redis 配置
+  redis:
+    database: 1
+    host: 124.223.222.249
+    port: 6379
+    timeout: 5000
+    password: 123456
