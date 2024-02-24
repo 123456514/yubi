@@ -8,21 +8,20 @@ spring:
   # todo 需替换配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://124.223.222.249:3306/yubi
+    url: jdbc:mysql://127.0.0.1:3306/yubi
     username: root
     password: 123456
 
   # Redis 配置
   redis:
     database: 1
-    host: 124.223.222.249
+    host: localhost
     port: 6379
-    timeout: 5000
-    password: 123456
+#    password: 123456
   rabbitmq:
-    host: 124.223.222.249
-    password: root
-    username: root
+    host: 127.0.0.1
+    password: 123
+    username: admin
     port: 5672
 mybatis-plus:
   configuration:

@@ -8,18 +8,18 @@ import com.yupi.yucongming.dev.model.DevChatRequest;
 import com.yupi.yucongming.dev.model.DevChatResponse;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 
 @Service
 public class AIManage {
+    @Resource
+    private YuCongMingClient yuCongMingClient;
 
     public String doChat(long biManage,String message){
-        String accessKey = "h199uglohqiidxu4ug2tjgc3f8aoloqx";
-        String secretKey = "pmt7koz5z8agihc01ux0n5d28nc5ci8m";
-        YuCongMingClient client = new YuCongMingClient(accessKey, secretKey);
         DevChatRequest devChatRequest = new DevChatRequest();
-        devChatRequest.setModelId(biManage);
-        devChatRequest.setMessage(message);
-        BaseResponse<DevChatResponse> response = client.doChat(devChatRequest);
+        devChatRequest.setModelId(1651468516836098050L);
+        devChatRequest.setMessage("邓紫棋");
+        BaseResponse<DevChatResponse> response = yuCongMingClient.doChat(devChatRequest);
         if(response == null){
             throw new BusinessException(ErrorCode.SYSTEM_ERROR,"AI 响应数据异常");
         }
@@ -27,3 +27,4 @@ public class AIManage {
         return response.getData().getContent();
     }
 }
+

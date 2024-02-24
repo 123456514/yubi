@@ -8,8 +8,8 @@ public class BIMqInitMain {
         try{
             ConnectionFactory connectionFactory =  new ConnectionFactory();
             connectionFactory.setHost("124.223.222.249");
-            connectionFactory.setUsername("root");
-            connectionFactory.setPassword("root");
+            connectionFactory.setUsername("admin");
+            connectionFactory.setPassword("123");
             Connection connection = connectionFactory.newConnection();
             Channel channel = connection.createChannel();
             String EXCHANGE_NAME = BIMqConstant.BI_EXCHANGE_NAME;

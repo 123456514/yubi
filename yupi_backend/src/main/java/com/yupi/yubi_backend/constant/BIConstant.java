@@ -16,7 +16,7 @@ public interface BIConstant {
     /**
      * AI模型Id
      */
-    long BI_MODEL_ID = 1689914240074297346L;
+    long BI_MODEL_ID = 1651468516836098050L;
     /**
      * 间隔字符串
      */

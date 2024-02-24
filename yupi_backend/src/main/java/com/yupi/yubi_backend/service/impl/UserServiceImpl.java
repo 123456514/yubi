@@ -79,29 +79,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public LoginUserVO userLogin(String userAccount, String userPassword, HttpServletRequest request) {
-        // 1. 校验
+        // 1. 校验用户名和匹配不能为空
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
         }
+        // 2. 校验用户名的的长度不能小于4
         if (userAccount.length() < 4) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "账号错误");
         }
+        // 3. 校验密码的长度不能小于8
         if (userPassword.length() < 8) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "密码错误");
         }
-        // 2. 加密
+        // 4. 使用md5进行加密
         String encryptPassword = DigestUtils.md5DigestAsHex((LOGIN_SALT + userPassword).getBytes());
-        // 查询用户是否存在
+        // 5. 在数据库中查询此时登录的用户是否存在
+        // select * from user where userAccount = ? and userPassword = ?;
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("userAccount", userAccount);
         queryWrapper.eq("userPassword", encryptPassword);
         User user = this.baseMapper.selectOne(queryWrapper);
-        // 用户不存在
+        // 6. 用户数据在数据库中不存在
         if (user == null) {
             log.info("user login failed, userAccount cannot match userPassword");
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");
         }
-        // 3. 记录用户的登录态
+        // 7. 记录用户的登录态
         request.getSession().setAttribute(USER_LOGIN_STATE, user);
         return this.getLoginUserVO(user);
     }
@@ -172,10 +175,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 用户注销
      *
-     * @param request
+     * @param request 为了得到session信息
      */
     @Override
     public boolean userLogout(HttpServletRequest request) {
+        // 判断session中使用key 对应的登录态是否存在，不存在直接返回为未登录
+        // 但是这个逻辑，根本就执行不了，因为用户不能进入需要登录才能进入的页面
         if (request.getSession().getAttribute(USER_LOGIN_STATE) == null) {
             throw new BusinessException(ErrorCode.OPERATION_ERROR, "未登录");
         }
@@ -190,6 +195,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return null;
         }
         LoginUserVO loginUserVO = new LoginUserVO();
+        // 把user对象中的属性添加到loginUserVO中
         BeanUtils.copyProperties(user, loginUserVO);
         return loginUserVO;
     }

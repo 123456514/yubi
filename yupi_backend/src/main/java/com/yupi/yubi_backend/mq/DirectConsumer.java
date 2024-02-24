@@ -22,21 +22,17 @@ public class DirectConsumer {
         String queueName2 = "xiaopi_queue";
         channel.queueDeclare(queueName2, true, false, false, null);
         channel.queueBind(queueName2, EXCHANGE_NAME, "xiaopi");
-
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
-
         DeliverCallback xiaoyuDeliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [xiaoyu] Received '" +
                     delivery.getEnvelope().getRoutingKey() + "':'" + message + "'");
         };
-
         DeliverCallback xiaopiDeliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [xiaopi] Received '" +
                     delivery.getEnvelope().getRoutingKey() + "':'" + message + "'");
         };
-
         channel.basicConsume(queueName, true, xiaoyuDeliverCallback, consumerTag -> {
         });
         channel.basicConsume(queueName2, true, xiaopiDeliverCallback, consumerTag -> {

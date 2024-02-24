@@ -10,14 +10,14 @@ import java.io.Serializable;
  *
  */
 @Data
-public class GenChartByRequest implements Serializable {
+public class GenChartByAiRequest implements Serializable {
 
 
 
     /**
      * 名称
      */
-    private String chartName;
+    private String name;
 
     /**
      * 分析目标
@@ -29,7 +29,7 @@ public class GenChartByRequest implements Serializable {
     /**
      * 图表类型
      */
-    private String chartType;
+    private String type;
 
 
 
