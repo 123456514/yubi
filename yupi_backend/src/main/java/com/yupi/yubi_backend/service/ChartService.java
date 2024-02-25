@@ -5,12 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yupi.yubi_backend.common.BaseResponse;
 import com.yupi.yubi_backend.common.DeleteRequest;
-import com.yupi.yubi_backend.model.dto.chart.ChartAddRequest;
-import com.yupi.yubi_backend.model.dto.chart.ChartEditRequest;
-import com.yupi.yubi_backend.model.dto.chart.ChartQueryRequest;
-import com.yupi.yubi_backend.model.dto.chart.ChartUpdateRequest;
+import com.yupi.yubi_backend.model.dto.chart.*;
 import com.yupi.yubi_backend.model.entity.Chart;
+import com.yupi.yubi_backend.model.vo.BIResponse;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,7 +41,7 @@ public interface ChartService extends IService<Chart> {
      * @param chartUpdateRequest
      * @return
      */
-    BaseResponse<Boolean> updateChart(@RequestBody ChartUpdateRequest chartUpdateRequest);
+    BaseResponse<Boolean> updateChart(ChartUpdateRequest chartUpdateRequest);
 
     /**
      * 根据id 查询用户图表
@@ -57,8 +57,7 @@ public interface ChartService extends IService<Chart> {
      * @param request
      * @return
      */
-    BaseResponse<Page<Chart>> listChartByPage(@RequestBody ChartQueryRequest chartQueryRequest,
-                                              HttpServletRequest request);
+    BaseResponse<Page<Chart>> listChartByPage(ChartQueryRequest chartQueryRequest, HttpServletRequest request);
 
     /**
      * 分页获取当前用户创建的资源列表
@@ -66,8 +65,7 @@ public interface ChartService extends IService<Chart> {
      * @param request
      * @return
      */
-    BaseResponse<Page<Chart>> listMyChartByPage(@RequestBody ChartQueryRequest chartQueryRequest,
-                                                HttpServletRequest request);
+    BaseResponse<Page<Chart>> listMyChartByPage(ChartQueryRequest chartQueryRequest, HttpServletRequest request);
 
 
 
@@ -77,8 +75,7 @@ public interface ChartService extends IService<Chart> {
      * @param request
      * @return
      */
-    BaseResponse<QueryWrapper<Chart>> searchChartByPage(@RequestBody ChartQueryRequest chartQueryRequest,
-                                                        HttpServletRequest request);
+    BaseResponse<QueryWrapper<Chart>> searchChartByPage(@RequestBody ChartQueryRequest chartQueryRequest, HttpServletRequest request);
 
     /**
      * 编辑用户
@@ -95,4 +92,16 @@ public interface ChartService extends IService<Chart> {
      * @return 是否修改状态成功
      */
      boolean handleUpdateChartStatus(long chartId, String chartStatus);
+
+    /**
+     * AI 调用
+     * @param goal
+     * @param chartName
+     * @param charType
+     * @param request
+     * @return
+     */
+    BaseResponse<BIResponse> genChartByAi(MultipartFile multipartFile,String goal, String chartName,String charType, HttpServletRequest request);
+    BaseResponse<BIResponse> genChartByAiAsync(MultipartFile multipartFile,String goal, String chartName,String charType, HttpServletRequest request);
+    BaseResponse<BIResponse> genChartByAiAsyncMq(MultipartFile multipartFile,String goal, String chartName,String charType, HttpServletRequest request);
 }

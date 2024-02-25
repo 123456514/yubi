@@ -17,7 +17,7 @@ public class GenChartByAiRequest implements Serializable {
     /**
      * 名称
      */
-    private String name;
+    private String chartName;
 
     /**
      * 分析目标
@@ -29,7 +29,7 @@ public class GenChartByAiRequest implements Serializable {
     /**
      * 图表类型
      */
-    private String type;
+    private String chartType;
 
 
 
